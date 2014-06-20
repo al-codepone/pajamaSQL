@@ -1,0 +1,69 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+    ],
+    "hash": "065545ad0d3150c1c92ebfe561abccc0",
+    "packages": [
+        {
+            "name": "pajamasql/pajamasql",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/al-codepone/pajamaSQL.git",
+                "reference": "9ae724a87ecc6856d0e34225a77cb05cb82e7a98"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/al-codepone/pajamaSQL/zipball/9ae724a87ecc6856d0e34225a77cb05cb82e7a98",
+                "reference": "9ae724a87ecc6856d0e34225a77cb05cb82e7a98",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "pjsql\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ry Ferguson",
+                    "email": "rytf12@gmail.com",
+                    "homepage": "http://ikitovagn.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP SQL database layer",
+            "homepage": "https://github.com/al-codepone/pajamaSQL",
+            "keywords": [
+                "model",
+                "models",
+                "sql"
+            ],
+            "time": "2014-06-20 00:27:01"
+        }
+    ],
+    "packages-dev": [
+
+    ],
+    "aliases": [
+
+    ],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "pajamasql/pajamasql": 20
+    },
+    "platform": [
+
+    ],
+    "platform-dev": [
+
+    ]
+}
