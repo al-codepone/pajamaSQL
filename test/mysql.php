@@ -2,7 +2,7 @@
 
 require 'vendor/autoload.php';
 
-//connect to db
+//connect to MySQL db
 $db = new pjsql\Mysql(
     'host',
     'username',
