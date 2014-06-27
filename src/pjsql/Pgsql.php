@@ -3,14 +3,9 @@
 namespace pjsql;
 
 class Pgsql extends DatabaseHandle {
-    public function __construct(
-        $connectionString,
-        $connectType = null,
-        $errorMessage = 'database error',
-        $debug = false)
-    {
+    public function __construct($connectionString, $connectType = null) {
         $conn = pg_connect($connectionString, $connectType);
-        parent::__construct($errorMessage, $debug, $conn);
+        parent::__construct($conn);
     }
 
     public function exec($query) {

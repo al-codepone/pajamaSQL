@@ -9,12 +9,10 @@ class Mysql extends DatabaseHandle {
         $password = null,
         $databaseName = '',
         $port = null,
-        $socket = null,
-        $errorMessage = 'database error',
-        $debug = false)
+        $socket = null)
     {
         $conn = mysqli_connect($host, $username, $password, $databaseName, $port, $socket);
-        parent::__construct($errorMessage, $debug, $conn);
+        parent::__construct($conn);
     }
 
     public function exec($query) {

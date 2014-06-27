@@ -3,14 +3,9 @@
 namespace pjsql;
 
 abstract class DatabaseHandle {
-    private $errorMessage;
-    private $debug;
     private $conn;
 
-    public function __construct($errorMessage, $debug, $conn) {
-        $this->errorMessage = $errorMessage;
-        $this->debug = $debug;
-
+    public function __construct($conn) {
         if(!$conn) {
             $this->error();
         }
@@ -27,7 +22,7 @@ abstract class DatabaseHandle {
     }
 
     public function error() {
-        die($this->debug ? $this->connError() : $this->errorMessage);
+        throw new DatabaseException($this->connError());
     }
 
     abstract protected function connError();

@@ -3,15 +3,9 @@
 namespace pjsql;
 
 class Sqlite extends DatabaseHandle {
-    public function __construct(
-        $filename,
-        $flags = 6,
-        $encryptionKey = '',
-        $errorMessage = 'database error',
-        $debug = false)
-    {
+    public function __construct($filename, $flags = 6, $encryptionKey = '') {
         $conn = new \SQLite3($filename, $flags, $encryptionKey);
-        parent::__construct($errorMessage, $debug, $conn);
+        parent::__construct($conn);
     }
 
     public function exec($query) {
