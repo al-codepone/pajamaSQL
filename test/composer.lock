@@ -11,12 +11,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/al-codepone/pajamaSQL.git",
-                "reference": "5928cb4ef5c6b6837176e10599ecefa1b96d8cda"
+                "reference": "2e6def35e844193fc7b58ba9d8b720cfe3feaa10"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/al-codepone/pajamaSQL/zipball/5928cb4ef5c6b6837176e10599ecefa1b96d8cda",
-                "reference": "5928cb4ef5c6b6837176e10599ecefa1b96d8cda",
+                "url": "https://api.github.com/repos/al-codepone/pajamaSQL/zipball/2e6def35e844193fc7b58ba9d8b720cfe3feaa10",
+                "reference": "2e6def35e844193fc7b58ba9d8b720cfe3feaa10",
                 "shasum": ""
             },
             "require": {
@@ -47,7 +47,7 @@
                 "models",
                 "sql"
             ],
-            "time": "2014-06-21 05:49:26"
+            "time": "2014-06-27 04:16:33"
         }
     ],
     "packages-dev": [
