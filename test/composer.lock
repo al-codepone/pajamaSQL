@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "1a64bb062480054971153527955fa3ff",
+    "hash": "92b2fae1ee81a1238724e825bafc2519",
     "packages": [
         {
             "name": "pajamasql/pajamasql",
@@ -11,12 +11,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/al-codepone/pajamaSQL.git",
-                "reference": "2e6def35e844193fc7b58ba9d8b720cfe3feaa10"
+                "reference": "64a853bfd42a8ec4e63d0695b21fff24fed85ff0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/al-codepone/pajamaSQL/zipball/2e6def35e844193fc7b58ba9d8b720cfe3feaa10",
-                "reference": "2e6def35e844193fc7b58ba9d8b720cfe3feaa10",
+                "url": "https://api.github.com/repos/al-codepone/pajamaSQL/zipball/64a853bfd42a8ec4e63d0695b21fff24fed85ff0",
+                "reference": "64a853bfd42a8ec4e63d0695b21fff24fed85ff0",
                 "shasum": ""
             },
             "require": {
@@ -47,7 +47,7 @@
                 "models",
                 "sql"
             ],
-            "time": "2014-06-27 04:16:33"
+            "time": "2014-06-28 03:41:24"
         }
     ],
     "packages-dev": [

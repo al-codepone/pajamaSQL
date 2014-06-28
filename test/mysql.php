@@ -2,6 +2,9 @@
 
 require 'vendor/autoload.php';
 
+//handle database error
+set_exception_handler('purple\database_error');
+
 //connect to MySQL db
 $db = new pjsql\Mysql(
     'host',

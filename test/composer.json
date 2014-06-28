@@ -3,6 +3,9 @@
         "pajamasql/pajamasql": "dev-master"
     },
     "autoload": {
-        "psr-0": {"purple\\": "src/"}
+        "psr-0": {"purple\\": "src/"},
+        "files": [
+            "src/purple/database-error.php"
+        ]
     }
 }
