@@ -2,9 +2,11 @@
 
 require 'vendor/autoload.php';
 
+//handle database error
+set_exception_handler('purple\database_error');
+
 //connect to PostgreSQL db
-$db = new pjsql\Pgsql(
-    'dbname=mydb user=jon password=123456');
+$db = new pjsql\Pgsql('dbname=mydb user=jon password=123456');
 
 //exec() executes a result-less query
 $db->exec('CREATE TABLE tword (
