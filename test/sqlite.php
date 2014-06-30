@@ -2,6 +2,9 @@
 
 require 'vendor/autoload.php';
 
+//handle database error
+set_exception_handler('purple\database_error');
+
 //connect to SQLite db
 $db = new pjsql\Sqlite('mydb.db');
 
