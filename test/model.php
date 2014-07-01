@@ -2,6 +2,9 @@
 
 require 'vendor/autoload.php';
 
+//handle database error
+set_exception_handler('purple\database_error');
+
 //must pass full namespace to get()
 $wordModel = purple\ModelFactory::get('purple\WordModel');
 
