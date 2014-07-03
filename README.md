@@ -39,6 +39,27 @@ Install using composer:
 }
 ```
 
+## Overview
+
+pajamaSQL is two things:
+
+* a database wrapper that simplifies connecting to and calling SQL
+* a model layer for isolating, grouping and reusing SQL
+
+The database wrapper has five key features:
+
+* connect to an SQL database via object instantiation
+* execute a result-less query with the `exec()` method
+* get a 2d array of results using the `query()` method
+* escape strings in queries using the `esc()` method
+* SQL error handling via PHP exceptions
+
+The model layer can be summarized as follows:
+
+* all models use the same database connection
+* get models via a static method call
+* model methods call `exec()`, `query()` and `esc()` on the injected database wrapper
+
 ## LICENSE
 
 MIT <http://ryf.mit-license.org/>
