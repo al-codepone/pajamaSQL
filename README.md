@@ -49,14 +49,14 @@ pajamaSQL is two things:
 The database wrapper has five key features:
 
 * connect to an SQL database via object instantiation
-* execute a result-less query with the `exec()` method
+* execute a result-less SQL query with the `exec()` method
 * get a 2d array of results using the `query()` method
-* escape strings in queries using the `esc()` method
+* escape strings in SQL queries using the `esc()` method
 * SQL error handling via PHP exceptions
 
 The model layer can be summarized as follows:
 
-* all models use the same database connection
+* all models use the same database wrapper(i.e. the same database connection)
 * get models via a static method call
 * model methods call `exec()`, `query()` and `esc()` on the injected database wrapper
 
