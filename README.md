@@ -60,6 +60,26 @@ The model layer can be summarized as follows:
 * get models via a static method call
 * model methods call `exec()`, `query()` and `esc()` on the injected database wrapper
 
+## Connect
+
+Connect to MySQL like this:
+
+```php
+$db = new pjsql\Mysql('host', 'username', 'password', 'db');
+```
+
+Connect to PostgreSQL like this:
+
+```php
+$db = new pjsql\Pgsql('dbname=mydb user=jon password=123456');
+```
+
+Connect to SQLite like this:
+
+```php
+$db = new pjsql\Sqlite('mydb.db');
+```
+
 ## LICENSE
 
 MIT <http://ryf.mit-license.org/>
