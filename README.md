@@ -59,6 +59,14 @@ Connect to SQLite:
 $sqlite = new pjsql\Sqlite('mydb.db');
 ```
 
+## exec()
+
+Use `exec()` to execute a result-less SQL query:
+
+```php
+$sqlite->exec('CREATE TABLE tword (word TEXT)');
+```
+
 ## LICENSE
 
 MIT <http://ryf.mit-license.org/>
