@@ -41,22 +41,22 @@ Install using composer:
 
 ## Connect
 
-Connect to MySQL like this:
+Connect to MySQL:
 
 ```php
-$db = new pjsql\Mysql('host', 'username', 'password', 'db');
+$mysql = new pjsql\Mysql('host', 'username', 'password', 'db');
 ```
 
-Connect to PostgreSQL like this:
+Connect to PostgreSQL:
 
 ```php
-$db = new pjsql\Pgsql('dbname=mydb user=jon password=123456');
+$pgsql = new pjsql\Pgsql('dbname=mydb user=jon password=123456');
 ```
 
-Connect to SQLite like this:
+Connect to SQLite:
 
 ```php
-$db = new pjsql\Sqlite('mydb.db');
+$sqlite = new pjsql\Sqlite('mydb.db');
 ```
 
 ## LICENSE
