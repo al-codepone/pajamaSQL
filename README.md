@@ -67,6 +67,14 @@ Use `exec()` to execute a result-less SQL query:
 $sqlite->exec('CREATE TABLE tword (word TEXT)');
 ```
 
+## query()
+
+Use `query()` to get a 2d array of results:
+
+```php
+var_dump($pgsql->query('SELECT * FROM tword'));
+```
+
 ## LICENSE
 
 MIT <http://ryf.mit-license.org/>
