@@ -14,8 +14,8 @@ is currently the only documentation.
 
 **PHP 5.3** or higher, [Composer](https://getcomposer.org/),
 and at least one of the follow PHP vendor specific database extensions:
-[Mysqli](http://www.php.net/manual/en/book.mysqli.php)
-[PostgreSQL](http://www.php.net/manual/en/book.pgsql.php)
+[Mysqli](http://www.php.net/manual/en/book.mysqli.php),
+[PostgreSQL](http://www.php.net/manual/en/book.pgsql.php),
 [SQLite3](http://www.php.net/manual/en/book.sqlite3.php).
 
 
