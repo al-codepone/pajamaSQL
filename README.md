@@ -75,6 +75,15 @@ Use `query()` to get a 2d array of results:
 var_dump($pgsql->query('SELECT * FROM tword'));
 ```
 
+## esc()
+
+Use `esc()` to escape strings in SQL queries:
+
+```php
+$mysql->exec(sprintf('INSERT INTO tword (word) VALUES("%s")',
+    $mysql->esc('"hello"')));
+```
+
 ## LICENSE
 
 MIT <http://ryf.mit-license.org/>
