@@ -141,6 +141,21 @@ $wordModel->create('bread');
 var_dump($wordModel->get());
 ```
 
+## Errors
+
+Handle SQL errors with `set_exception_handler()`:
+
+```php
+set_exception_handler(function($e) {
+    if($e instanceof pjsql\DatabaseException) {
+        die($e->getMessage());
+    }
+    else {
+        throw $e;
+    }
+});
+```
+
 ## LICENSE
 
 MIT <http://ryf.mit-license.org/>
