@@ -89,6 +89,58 @@ $mysql->exec(sprintf('INSERT INTO tword (word) VALUES("%s")',
     $mysql->esc('"hello"')));
 ```
 
+## Models
+
+Setup a model factory:
+
+```php
+namespace myns;
+
+class ModelFactory extends \pjsql\AdapterFactory {
+    protected static function databaseHandle() {
+
+        //all models share a single instance of this object
+        return new \pjsql\Mysql('host', 'username', 'password', 'db');
+    }
+}
+```
+
+Create model(s):
+
+```php
+namespace myns;
+
+class WordModel extends \pjsql\DatabaseAdapter {
+    public function install() {
+        $this->exec('CREATE TABLE tword (
+            word_id INT AUTO_INCREMENT PRIMARY KEY,
+            word VARCHAR(32))');
+    }
+
+    public function create($word) {
+        $this->exec(sprintf('INSERT INTO tword (word) VALUES("%s")',
+            $this->esc($word)));
+    }
+
+    public function get() {
+        return $this->query('SELECT * FROM tword');
+    }
+}
+```
+
+Get model(s) and call their methods:
+
+```php
+//must pass full namespace to get()
+$wordModel = myns\ModelFactory::get('myns\WordModel');
+
+$wordModel->install();
+$wordModel->create('pink');
+$wordModel->create('bread');
+
+var_dump($wordModel->get());
+```
+
 ## LICENSE
 
 MIT <http://ryf.mit-license.org/>
