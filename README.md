@@ -2,8 +2,6 @@
 
 pajamaSQL is a PHP SQL database layer.
 It supports MySQL, PostgreSQL and SQLite.
-The first release is still in development.
-This README is incomplete.
 
 ## Documentation
 
@@ -39,7 +37,7 @@ Install using composer:
 ```javascript
 {
     "require": {
-        "pajamasql/pajamasql": "dev-master",
+        "pajamasql/pajamasql": "0.5.0",
     }
 }
 ```
