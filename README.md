@@ -89,6 +89,20 @@ $mysql->exec(sprintf('INSERT INTO tword (word) VALUES("%s")',
     $mysql->esc('"hello"')));
 ```
 
+## conn() and error()
+
+Use `conn()` to access the full vendor specific database extension:
+
+```php
+if($status = $mysql->conn()->stat()) {
+    echo $status;
+}
+else {
+    //call error() when using conn()
+    $mysql->error();
+}
+```
+
 ## Models
 
 Setup a model factory:
