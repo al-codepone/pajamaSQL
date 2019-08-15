@@ -7,10 +7,13 @@ set_exception_handler('purple\database_error');
 
 //connect to MySQL db
 $db = new pjsql\Mysql(
-    'host',
-    'username',
-    'password',
-    'db');
+    'localhost',
+    'root',
+    '',
+    'test');
+
+//
+$db->exec('DROP TABLE IF EXISTS tword');
 
 //exec() executes a result-less query
 $db->exec('
@@ -26,13 +29,14 @@ $db->exec('
         ("jump"),
         ("hello")');
 
-//escape strings with esc()
-$db->exec(sprintf('
+//escape strings with prepared statements
+$db->exec('
     INSERT INTO
         tword(word)
     VALUES
-        ("%s")',
-    $db->esc('&><\/"')));
+        (?)',
+	's',
+    'test');
 
 //query() returns a 2d array of results
 var_dump($db->query('
