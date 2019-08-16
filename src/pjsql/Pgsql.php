@@ -9,22 +9,26 @@ class Pgsql extends DatabaseHandle {
     }
 
     public function exec($query) {
-        if(!pg_query($this->conn(), $query)) {
+        $result = pg_query_params(
+            $this->conn(),
+            $query,
+            array_slice(func_get_args(), 1));
+
+        if(!$result) {
             $this->error();
         }
     }
 
     public function query($query) {
-        if($result = pg_query($this->conn(), $query)) {
-            $rows = array();
+        $result = pg_query_params(
+            $this->conn(),
+            $query,
+            array_slice(func_get_args(), 1));
 
-            while($row = pg_fetch_assoc($result)) { 
-                $rows[] = $row;
-            }
-
-            return $rows;
+        if($result) {
+            return pg_fetch_all($result);
         }
-
+        
         $this->error();
     }
 
