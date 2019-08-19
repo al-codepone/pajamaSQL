@@ -24,21 +24,21 @@ $db->exec(sprintf("INSERT INTO tword (word) VALUES('%s')",
 
 $db->exec(
     'insert into tword(word) values(?)',
-    [SQLITE3_TEXT],
+    't',
     'frog');
 
 $db->exec(
     "insert into tword(word)
         select ? as 'word' union
         select ?",
-    [SQLITE3_TEXT, SQLITE3_TEXT],
+    'tt',
     'word1',
     'word2');
 
 //query() returns a 2d array of results
 $data = $db->query(
     'SELECT rowid, word FROM tword where rowid > ? and rowid <= ?',
-    [SQLITE3_INTEGER, SQLITE3_INTEGER],
+    'ii',
     1,
     4);
 
