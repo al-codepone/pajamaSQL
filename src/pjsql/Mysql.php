@@ -31,6 +31,38 @@ class Mysql extends DatabaseHandle {
         //
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
+    
+    //
+    public function prepare($query) {
+        
+        //
+        $stmt = mysqli_prepare($this->conn(), $query);
+
+        if(!$stmt) {
+			throw new DatabaseException($this->conn()->error, $this->conn()->errno);
+		}
+        
+        return $stmt;
+    }
+    
+    //
+    public function bexec($stmt) {
+        call_user_func_array(
+            array($this, 'bindExecute'),
+            func_get_args());
+    }
+    
+    //
+    public function bquery($stmt) {
+        
+        //
+        $stmt = call_user_func_array(
+            array($this, 'bindExecute'),
+            func_get_args());
+
+        //
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
 
     public function esc($string) {
         return mysqli_real_escape_string($this->conn(), $string);
@@ -41,13 +73,27 @@ class Mysql extends DatabaseHandle {
     }
     
     private function prepareBindExecute($query) {
-
+        
         //prepare
-		if(!($stmt = mysqli_prepare($this->conn(), $query))) {
-			throw new DatabaseException($this->conn()->error, $this->conn()->errno);
-		}
+        $stmt = $this->prepare($query);
+        
+        //
+        $args = array_merge(
+            array($stmt),
+            array_slice(func_get_args(), 1));
 
-		//bind
+        //bind and execute
+        call_user_func_array(
+            array($this, 'bindExecute'),
+            $args);
+
+        //
+        return $stmt;
+    }
+    
+    private function bindExecute($stmt) {
+
+        //bind
 		$args = func_get_args();
 		$num_args = count($args);
 
