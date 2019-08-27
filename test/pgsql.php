@@ -25,11 +25,39 @@ $db->exec('insert into tword(word) values($1)', ')))))');
 $db->exec(sprintf("INSERT INTO tword (word) VALUES('%s')",
     $db->esc('&><\/\'')));
 
+//prepare and bind multiple times
+$stmt_name = 'stmt1';
+$db->prepare('insert into tword(word) values($1)', $stmt_name);
+$db->bexec($stmt_name, 'eight');
+$db->bexec($stmt_name, 'nine');
+$db->bexec($stmt_name, 'twenty');
+
 //query() returns a 2d array of results
-var_dump($db->query('SELECT * FROM tword'));
+echo '<pre>',
+    print_r($db->query('SELECT * FROM tword'), true),
+    '</pre>';
 
 //
-var_dump($db->query(
+$data = $db->query(
     'select * from tword where word_id < $1 and word_id != $2',
-    100,
-    2));
+    4,
+    2);
+
+echo '<pre>',
+    print_r($data, true),
+    '</pre>';
+
+//select prepare and bind multiple times
+$ranges = [
+    [1, 2],
+    [2, 100],
+    [6, 6]];
+
+$stmt_name = 'stmt2';
+$db->prepare('select * from tword where word_id >= $1 and word_id <= $2', $stmt_name);
+
+foreach($ranges as $r) {
+    list($min, $max) = $r;
+    $data = $db->bquery($stmt_name, $min, $max);
+    echo '<pre>', print_r($data, true), '</pre>';
+}

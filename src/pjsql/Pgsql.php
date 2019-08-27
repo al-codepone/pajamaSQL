@@ -31,6 +31,34 @@ class Pgsql extends DatabaseHandle {
         
         $this->error();
     }
+    
+    //
+    public function prepare($query, $stmt_name) {
+        $result = pg_prepare($this->conn(), $stmt_name, $query);
+
+        if(!$result) {
+			$this->error();
+		}
+    }
+    
+    //
+    public function bexec($stmt_name) {
+        call_user_func_array(
+            array($this, 'bindExecute'),
+            func_get_args());
+    }
+    
+    //
+    public function bquery($stmt_name) {
+        
+        //
+        $result = call_user_func_array(
+            array($this, 'bindExecute'),
+            func_get_args());
+
+        //
+        return pg_fetch_all($result);
+    }
 
     public function esc($string) {
         return pg_escape_string($this->conn(), $string);
@@ -38,5 +66,20 @@ class Pgsql extends DatabaseHandle {
 
     protected function connError() {
         return pg_last_error($this->conn());
+    }
+    
+    private function bindExecute($stmt_name) {
+        
+        //
+        $result = pg_execute(
+            $this->conn(),
+            $stmt_name,
+            array_slice(func_get_args(), 1));
+
+        if(!$result) {
+            $this->error();
+        }
+        
+        return $result;
     }
 }
