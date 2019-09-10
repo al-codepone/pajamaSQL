@@ -31,6 +31,15 @@ class Mysql extends DatabaseHandle {
         //
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
+
+    //
+    public function rquery($query) {
+        $stmt = call_user_func_array(
+            array($this, 'prepareBindExecute'),
+            func_get_args());
+
+        return $stmt->get_result();
+    }
     
     //
     public function prepare($query) {
@@ -62,6 +71,18 @@ class Mysql extends DatabaseHandle {
 
         //
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+    
+    //
+    public function brquery($stmt) {
+        
+        //
+        $stmt = call_user_func_array(
+            array($this, 'bindExecute'),
+            func_get_args());
+
+        //
+        return $stmt->get_result();
     }
 
     public function esc($string) {
