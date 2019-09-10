@@ -37,6 +37,41 @@ class Sqlite extends DatabaseHandle {
 
         return $rows;
     }
+    
+    //
+    public function prepare($query) {
+        
+        //
+        $stmt = $this->conn()->prepare($query);
+        
+        if(!$stmt) {
+            $this->error();
+        }
+        
+        return $stmt;
+    }
+    
+    //
+    public function bexec($stmt) {
+        call_user_func_array(
+            array($this, 'bindExecute'),
+            func_get_args());
+    }
+    
+    //
+    public function bquery($stmt) {
+        $result = call_user_func_array(
+            array($this, 'bindExecute'),
+            func_get_args());
+
+        $rows = array();
+
+        while($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $rows[] = $row;
+        }
+
+        return $rows;
+    }
 
     public function esc($string) {
         return \SQLite3::escapeString($string);
@@ -49,11 +84,24 @@ class Sqlite extends DatabaseHandle {
     private function prepareBindExecute($query) {
 
         //prepare
-        $stmt = $this->conn()->prepare($query);
+        $stmt = $this->prepare($query);
         
-        if(!$stmt) {
-            $this->error();
-        }
+        //
+        $args = array_merge(
+            array($stmt),
+            array_slice(func_get_args(), 1));
+
+        //bind and execute
+        $result = call_user_func_array(
+            array($this, 'bindExecute'),
+            $args);
+
+        //
+        return $result;
+    }
+
+    //
+    private function bindExecute($stmt) {
         
         //bind
 		$args = func_get_args();

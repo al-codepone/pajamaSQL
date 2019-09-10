@@ -35,6 +35,11 @@ $db->exec(
     'word1',
     'word2');
 
+//prepare and then bind exec more than once
+$stmt = $db->prepare('insert into tword(word) values(?)');
+$db->bexec($stmt, 't', 'up');
+$db->bexec($stmt, 't', 'down');
+
 //query() returns a 2d array of results
 $data = $db->query(
     'SELECT rowid, word FROM tword where rowid > ? and rowid <= ?',
@@ -45,3 +50,19 @@ $data = $db->query(
 echo '<pre>',
     print_r($data, true) .
     '</pre>';
+
+//prepare and bind query more than once
+$only_these = array(
+    array(1, 2, 3),
+    array(4, 5, 6),
+    array(1, 100, 1000));
+
+$stmt = $db->prepare('select rowid, word from tword where rowid in(?, ?, ?)');
+
+foreach($only_these as $o) {
+    $data = $db->bquery($stmt, 'iii', $o[0], $o[1], $o[2]);
+    
+    echo '<pre>',
+        print_r($data, true) .
+        '</pre>';
+}
