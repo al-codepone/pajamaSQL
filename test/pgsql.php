@@ -47,6 +47,13 @@ echo '<pre>',
     print_r($data, true),
     '</pre>';
 
+//rquery()
+$result = $db->rquery('select * from tword limit 2');
+
+while($row = pg_fetch_assoc($result)) {
+    echo '<pre>', print_r($row, true), '</pre>';
+}
+
 //select prepare and bind multiple times
 $ranges = [
     [1, 2],
@@ -60,4 +67,18 @@ foreach($ranges as $r) {
     list($min, $max) = $r;
     $data = $db->bquery($stmt_name, $min, $max);
     echo '<pre>', print_r($data, true), '</pre>';
+}
+
+//brquery()
+$my_ids = array(1, 2, 3);
+$stmt_name = 'stmt3';
+
+$db->prepare('select word from tword where word_id = $1', $stmt_name);
+
+foreach($my_ids as $i) {
+    $result = $db->brquery($stmt_name, $i);
+    
+    while($row = pg_fetch_row($result)) {
+        echo '<pre>', print_r($row, true), '</pre>';
+    }
 }
