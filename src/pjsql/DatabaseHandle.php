@@ -15,6 +15,11 @@ abstract class DatabaseHandle {
 
     abstract public function exec($query);
     abstract public function query($query);
+    abstract public function rquery($query);
+    abstract public function prepare($query);
+    abstract public function bexec($stmt);
+    abstract public function bquery($stmt);
+    abstract public function brquery($stmt);
     abstract public function esc($string);
 
     public function conn() {

@@ -48,7 +48,17 @@ class Pgsql extends DatabaseHandle {
     
     
     //
-    public function prepare($query, $stmt_name) {
+    public function prepare($query) {
+        $args = func_get_args();
+		$num_args = count($args);
+
+        //
+        if($num_args != 2) {
+            trigger_error('\pjsql\Pgsql::prepare() takes exactly 2 arguments', E_USER_ERROR);
+        }
+        
+        //
+        $stmt_name = $args[1];
         $result = pg_prepare($this->conn(), $stmt_name, $query);
 
         if(!$result) {
