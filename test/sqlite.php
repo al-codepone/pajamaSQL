@@ -51,6 +51,16 @@ echo '<pre>',
     print_r($data, true) .
     '</pre>';
 
+//rquery()
+$result = $db->rquery(
+    'select * from tword where rowid < ?',
+    'i',
+    2);
+
+while($row = $result->fetchArray()) {
+    echo '<pre>', print_r($row, true), '</pre>';
+}
+
 //prepare and bind query more than once
 $only_these = array(
     array(1, 2, 3),
@@ -65,4 +75,17 @@ foreach($only_these as $o) {
     echo '<pre>',
         print_r($data, true) .
         '</pre>';
+}
+
+//brquery()
+$ceils = array(3, 1);
+
+$stmt = $db->prepare('select word from tword where rowid <= ?');
+
+foreach($ceils as $c) {
+    $result = $db->brquery($stmt, 'i', $c);
+    
+    while($row = $result->fetchArray()) {
+        echo '<pre>', print_r($row, true), '</pre>';
+    }
 }

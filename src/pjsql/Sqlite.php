@@ -39,6 +39,15 @@ class Sqlite extends DatabaseHandle {
     }
     
     //
+    public function rquery($query) {
+        $result = call_user_func_array(
+            array($this, 'prepareBindExecute'),
+            func_get_args());
+
+        return $result;
+    }
+    
+    //
     public function prepare($query) {
         
         //
@@ -71,6 +80,15 @@ class Sqlite extends DatabaseHandle {
         }
 
         return $rows;
+    }
+    
+    //
+    public function brquery($stmt) {
+        $result = call_user_func_array(
+            array($this, 'bindExecute'),
+            func_get_args());
+
+        return $result;
     }
 
     public function esc($string) {
@@ -126,6 +144,7 @@ class Sqlite extends DatabaseHandle {
             
             //
             $values = array_slice($args, 2);
+            $stmt->reset();
             
             //
             foreach($types as $i => $t) {
