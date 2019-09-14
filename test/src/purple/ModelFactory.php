@@ -7,9 +7,9 @@ class ModelFactory extends \pjsql\AdapterFactory {
 
         //all models share a single instance of this object
         return new \pjsql\Mysql(
-            'host',
-            'username',
-            'password',
-            'db');
+            'localhost',
+            'root',
+            '',
+            'test');
     }
 }
