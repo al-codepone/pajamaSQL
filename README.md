@@ -114,3 +114,49 @@ while($row = $result->fetch_object()) {
     print_r($row);
 }
 ```
+
+Use `prepare()`, `bexec()` and `bquery()` to run a query more than once:
+
+```php
+$stmt = $db->prepare('insert into tanimal values(null, ?)');
+$db->bexec($stmt, 's', 'bird');
+$db->bexec($stmt, 's', 'frog');
+$db->bexec($stmt, 's', 'cat');
+
+$ids = [1, 2, 3, 4];
+$stmt = $db->prepare('select name from tanimal where animal_id = ?');
+
+foreach($ids as $id) {
+    $data = $db->bquery($stmt, 'i', $id);
+    print_r($data);
+}
+```
+
+`bexec()` and `bquery()` take the same arguments as `exec()` and `query()`
+except the first is a prepared statement instead of a query string.
+
+`bquery()` returns a 2D array. If you want a `mysqli_result` object instead then use `brquery()`:
+
+```php
+$animals = ['cat', 'dog', 'turtle', 'crab', 'shark'];
+$stmt = $db->prepare('insert into tanimal values(null, ?)');
+
+foreach($animals as $a) {
+    $db->bexec($stmt, 's', $a);
+}
+
+$floors = [1, 5];
+$stmt = $db->prepare('select name from tanimal where animal_id >= ?');
+
+foreach($floors as $f) {
+    $result = $db->brquery($stmt, 'i', $f);
+
+    while($row = $result->fetch_assoc()) {
+        print_r($row);
+    }
+}
+```
+
+## PostgreSQL
+
+...
