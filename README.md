@@ -42,132 +42,77 @@ Install using composer:
 }
 ```
 
-## Connect
+##MySQL
 
-Connect to MySQL:
+Connect to MySQL using the constructor:
 
 ```php
-$mysql = new pjsql\Mysql('host', 'username', 'password', 'db');
+<?php
+
+require 'vendor/autoload.php';
+
+$db = new pjsql\Mysql(
+    'host',
+    'username',
+    'password',
+    'database');
+
+echo $db->conn()->stat();
 ```
 
-Connect to PostgreSQL:
+Execute MySQL queries with `exec()` and `query()`:
 
 ```php
-$pgsql = new pjsql\Pgsql('dbname=mydb user=jon password=123456');
+<?php
+
+$db->exec('drop table if exists tanimal');
+
+$db->exec('create table tanimal(
+    animal_id int auto_increment primary key,
+    name varchar(32))');
+
+$db->exec('insert into tanimal(name) values("tiger")');
+
+$data = $db->query('select * from tanimal');
+
+print_r($data);
 ```
 
-Connect to SQLite:
+`exec()` and `query()` can take query parameters:
 
 ```php
-$sqlite = new pjsql\Sqlite('mydb.db');
+$db->exec(
+    'insert into tanimal(name) values(?), (?)',
+    'ss',
+    'tiger',
+    'eagle');
+
+$data = $db->query(
+    'select * from tanimal where animal_id = ?',
+    'i',
+    2);
+
+print_r($data);
 ```
 
-## exec()
+The second argument for `exec()` and `query()` is a parameter types string and
+it works the same as the [mysqli_stmt::bind_param](https://www.php.net/manual/en/mysqli-stmt.bind-param.php) `$types` argument.
 
-Use `exec()` to execute a result-less SQL query:
-
-```php
-$sqlite->exec('CREATE TABLE tword (word TEXT)');
-```
-
-## query()
-
-Use `query()` to get a 2d array of results:
+`query()` returns a 2D array. If you want a `mysqli_result` object instead then use `rquery()`:
 
 ```php
-var_dump($pgsql->query('SELECT * FROM tword'));
-```
+$db->exec(
+    'insert into tanimal(name) values(?), (?)',
+    'ss',
+    'tiger',
+    'eagle');
 
-## esc()
+$result = $db->rquery(
+    'select * from tanimal where animal_id < ?',
+    'i',
+    1000);
 
-Use `esc()` to escape strings in SQL queries:
-
-```php
-$mysql->exec(sprintf('INSERT INTO tword (word) VALUES("%s")',
-    $mysql->esc('"hello"')));
-```
-
-## conn() and error()
-
-Use `conn()` to access the full vendor specific database extension:
-
-```php
-if($status = $mysql->conn()->stat()) {
-    echo $status;
-}
-else {
-    //call error() when using conn()
-    $mysql->error();
-}
-```
-
-## Models
-
-Setup a model factory:
-
-```php
-namespace myns;
-
-class ModelFactory extends \pjsql\AdapterFactory {
-    protected static function databaseHandle() {
-
-        //all models share a single instance of this object
-        return new \pjsql\Mysql('host', 'username', 'password', 'db');
-    }
-}
-```
-
-Create model(s):
-
-```php
-namespace myns;
-
-class WordModel extends \pjsql\DatabaseAdapter {
-    public function install() {
-        $this->exec('CREATE TABLE tword (
-            word_id INT AUTO_INCREMENT PRIMARY KEY,
-            word VARCHAR(32))');
-    }
-
-    public function create($word) {
-        $this->exec(sprintf('INSERT INTO tword (word) VALUES("%s")',
-            $this->esc($word)));
-    }
-
-    public function get() {
-        return $this->query('SELECT * FROM tword');
-    }
+while($row = $result->fetch_object()) {
+    print_r($row);
 }
 ```
-
-Get model(s) and call their methods:
-
-```php
-//must pass full namespace to get()
-$wordModel = myns\ModelFactory::get('myns\WordModel');
-
-$wordModel->install();
-$wordModel->create('pink');
-$wordModel->create('bread');
-
-var_dump($wordModel->get());
-```
-
-## Errors
-
-Handle SQL errors with `set_exception_handler()`:
-
-```php
-set_exception_handler(function($e) {
-    if($e instanceof pjsql\DatabaseException) {
-        die($e->getMessage());
-    }
-    else {
-        throw $e;
-    }
-});
-```
-
-## LICENSE
-
-MIT <http://ryf.mit-license.org/>
