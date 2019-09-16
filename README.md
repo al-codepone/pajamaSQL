@@ -42,7 +42,7 @@ Install using composer:
 }
 ```
 
-##MySQL
+## MySQL
 
 Connect to MySQL using the constructor:
 
@@ -63,8 +63,6 @@ echo $db->conn()->stat();
 Execute MySQL queries with `exec()` and `query()`:
 
 ```php
-<?php
-
 $db->exec('drop table if exists tanimal');
 
 $db->exec('create table tanimal(
