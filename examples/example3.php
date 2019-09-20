@@ -16,13 +16,11 @@ $db->exec('create table tanimal(
 
 $db->exec(
     'insert into tanimal(name) values(?), (?)',
-    'ss',
     'tiger',
     'eagle');
 
 $data = $db->query(
     'select * from tanimal where animal_id = ?',
-    'i',
     2);
 
 print_r($data);

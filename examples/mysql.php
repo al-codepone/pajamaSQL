@@ -35,14 +35,13 @@ $db->exec('
         tword(word)
     VALUES
         (?)',
-	's',
     'test');
 
 //prepare and then bind multiple times
 $stmt = $db->prepare('insert into tword(word) values(?)');
-$db->bexec($stmt, 's', 'leopard');
-$db->bexec($stmt, 's', 'tiger');
-$db->bexec($stmt, 's', 'lion');
+$db->bexec($stmt, 'leopard');
+$db->bexec($stmt, 'tiger');
+$db->bexec($stmt, 'lion');
 
 //query() returns a 2d array of results
 $data = $db->query('SELECT * FROM tword');
@@ -60,7 +59,7 @@ $id_floors = array(3, 6, 100);
 $stmt = $db->prepare('select * from tword where word_id >= ?');
 
 foreach($id_floors as $f) {
-    $data = $db->bquery($stmt, 'i', $f);
+    $data = $db->bquery($stmt, $f);
     echo '<pre>', print_r($data, true), '</pre>';
 }
 
@@ -69,7 +68,7 @@ $less_than = array(2, 3, 7);
 $stmt = $db->prepare('select * from tword where word_id < ?');
 
 foreach($less_than as $lt) {
-    $result = $db->brquery($stmt, 'i', $lt);
+    $result = $db->brquery($stmt, $lt);
     
     while($row = $result->fetch_array()) {
         echo '<pre>', print_r($row, true), '</pre>';

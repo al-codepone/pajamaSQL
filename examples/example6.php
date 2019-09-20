@@ -18,14 +18,14 @@ $animals = ['cat', 'dog', 'turtle', 'crab', 'shark'];
 $stmt = $db->prepare('insert into tanimal values(null, ?)');
 
 foreach($animals as $a) {
-    $db->bexec($stmt, 's', $a);
+    $db->bexec($stmt, $a);
 }
 
 $floors = [1, 5];
 $stmt = $db->prepare('select name from tanimal where animal_id >= ?');
 
 foreach($floors as $f) {
-    $result = $db->brquery($stmt, 'i', $f);
+    $result = $db->brquery($stmt, $f);
 
     while($row = $result->fetch_assoc()) {
         print_r($row);

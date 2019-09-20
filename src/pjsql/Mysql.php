@@ -117,18 +117,34 @@ class Mysql extends DatabaseHandle {
         //bind
 		$args = func_get_args();
 		$num_args = count($args);
-
-		if($num_args > 2) {
-			$params = array($args[1]);
-
-			for($i = 2; $i < $num_args; ++$i) {
-				$params[] = &$args[$i];
-			}
-
-			if(!call_user_func_array(array($stmt, 'bind_param'), $params)) {
+        
+        if($num_args > 1) {
+            
+            //
+            $bind_args = array();
+            
+            //
+            if($num_args == 3 && is_array($args[1])) {
+                $bind_args[] = $args[2];
+                $params = $args[1];
+                
+                for($i = 0; $i < count($params); ++$i) {
+                    $bind_args[] = &$params[$i];
+                }
+            }
+            else {
+                $bind_args[] = str_repeat('s', $num_args - 1);
+                
+                for($i = 1; $i < $num_args; ++$i) {
+                    $bind_args[] = &$args[$i];
+                }
+            }
+            
+            //
+            if(!call_user_func_array(array($stmt, 'bind_param'), $bind_args)) {
 				throw new DatabaseException($stmt->error, $stmt->errno);
 			}
-		}
+        }
 
 		//execute
 		if(!$stmt->execute()) {

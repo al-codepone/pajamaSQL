@@ -15,14 +15,14 @@ $db->exec('create table tanimal(
     name varchar(32))');
 
 $stmt = $db->prepare('insert into tanimal values(null, ?)');
-$db->bexec($stmt, 's', 'bird');
-$db->bexec($stmt, 's', 'frog');
-$db->bexec($stmt, 's', 'cat');
+$db->bexec($stmt, 'bird');
+$db->bexec($stmt, 'frog');
+$db->bexec($stmt, 'cat');
 
 $ids = [1, 2, 3, 4];
 $stmt = $db->prepare('select name from tanimal where animal_id = ?');
 
 foreach($ids as $id) {
-    $data = $db->bquery($stmt, 'i', $id);
+    $data = $db->bquery($stmt, $id);
     print_r($data);
 }

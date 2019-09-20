@@ -65,14 +65,13 @@ class WordModel extends \pjsql\DatabaseAdapter {
                 tword(word)
             VALUES
                 (?)',
-            's',
             'test');
 
         //prepare and then bind multiple times
         $stmt = $this->prepare('insert into tword(word) values(?)');
-        $this->bexec($stmt, 's', 'leopard');
-        $this->bexec($stmt, 's', 'tiger');
-        $this->bexec($stmt, 's', 'lion');
+        $this->bexec($stmt, 'leopard');
+        $this->bexec($stmt, 'tiger');
+        $this->bexec($stmt, 'lion');
 
         //query() returns a 2d array of results
         $data = $this->query('SELECT * FROM tword');
@@ -90,7 +89,7 @@ class WordModel extends \pjsql\DatabaseAdapter {
         $stmt = $this->prepare('select * from tword where word_id >= ?');
 
         foreach($id_floors as $f) {
-            $data = $this->bquery($stmt, 'i', $f);
+            $data = $this->bquery($stmt, $f);
             echo '<pre>', print_r($data, true), '</pre>';
         }
 
@@ -99,7 +98,7 @@ class WordModel extends \pjsql\DatabaseAdapter {
         $stmt = $this->prepare('select * from tword where word_id < ?');
 
         foreach($less_than as $lt) {
-            $result = $this->brquery($stmt, 'i', $lt);
+            $result = $this->brquery($stmt, $lt);
             
             while($row = $result->fetch_array()) {
                 echo '<pre>', print_r($row, true), '</pre>';

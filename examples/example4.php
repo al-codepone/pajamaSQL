@@ -16,13 +16,11 @@ $db->exec('create table tanimal(
 
 $db->exec(
     'insert into tanimal(name) values(?), (?)',
-    'ss',
     'tiger',
     'eagle');
 
 $result = $db->rquery(
     'select * from tanimal where animal_id < ?',
-    'i',
     1000);
 
 while($row = $result->fetch_object()) {
