@@ -74,3 +74,11 @@ foreach($less_than as $lt) {
         echo '<pre>', print_r($row, true), '</pre>';
     }
 }
+
+//use param types string
+$data = $db->query(
+    'select * from tword where word_id in(?, ?)',
+    [1, 2],
+    'ii');
+
+echo '<pre>', print_r($data, true), '</pre>';

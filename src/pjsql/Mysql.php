@@ -122,12 +122,20 @@ class Mysql extends DatabaseHandle {
             
             //
             $bind_args = array();
+            $is_params_array = is_array($args[1]);
             
             //
-            if($num_args == 3 && is_array($args[1])) {
-                $bind_args[] = $args[2];
-                $params = $args[1];
+            if($is_params_array) {
                 
+                //
+                $params = $args[1];
+                $types = ($num_args == 2)
+                    ? str_repeat('s', count($params))
+                    : $args[2];
+
+                $bind_args[] = $types;
+
+                //
                 for($i = 0; $i < count($params); ++$i) {
                     $bind_args[] = &$params[$i];
                 }

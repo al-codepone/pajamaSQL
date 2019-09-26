@@ -147,6 +147,29 @@ foreach($floors as $f) {
 }
 ```
 
+With `exec()`, `query()`, `rquery()`, `bexec()`, `bquery()` and `brquery()`
+you can put the parameter values into an array and use a types
+string as the third argument in order to specify the query
+parameter types:
+
+```php
+$db->exec(
+    'insert into tanimal(name) values(?), (?), (?)',
+    ['lizard', 'cow', 'monkey'],
+    'sss');
+
+$data = $db->query(
+    'select * from tanimal where animal_id < ?',
+    [3],
+    'i');
+
+print_r($data);
+```
+
+The parameter types string above works the same way as the
+[mysqli_stmt::bind_param](https://www.php.net/manual/en/mysqli-stmt.bind-param.php)
+`$types` argument.
+
 ## PostgreSQL
 
 ...
