@@ -172,4 +172,114 @@ The parameter types string above works the same way as the
 
 ## PostgreSQL
 
+Use the `Pgsql()` constructor to connect to a PostgreSQL database:
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$db = new pjsql\Pgsql('dbname=foo user=bar password=baz');
+
+echo pg_host($db->conn());
+```
+
+`conn()` above is a PostgreSQL connection resource that is returned
+by [pg_connect()](https://www.php.net/manual/en/function.pg-connect.php).
+
+Execute PostgreSQL queries with `exec()` and `query()`:
+
+```php
+$db->exec('drop table if exists tcolor');
+
+$db->exec('create table tcolor(
+    color_id serial primary key,
+    name varchar(40))');
+
+$db->exec("insert into tcolor(name) values('green')");
+
+$data = $db->query('select * from tcolor');
+
+print_r($data);
+```
+
+`exec()` and `query()` can take query parameters:
+
+```php
+$db->exec(
+    'insert into tcolor(name) values($1), ($2)',
+    'gold',
+    'silver');
+
+$data = $db->query(
+    'select * from tcolor where color_id <> $1',
+    1);
+
+print_r($data);
+```
+
+`query()` returns an array with all the data.
+If you want a query result resource instead then use `rquery()`:
+
+```php
+$db->exec(
+    'insert into tcolor(name) values($1), ($2)',
+    'gold',
+    'silver');
+
+$result = $db->rquery(
+    'select * from tcolor where color_id > $1',
+    0);
+
+while($row = pg_fetch_assoc($result)) {
+    print_r($row);
+}
+```
+
+Use `prepare()`, `bexec()` and `bquery()` to run a query more than once:
+
+```php
+$stmt_name = 'insert1';
+$db->prepare('insert into tcolor values(default, $1)', $stmt_name);
+$db->bexec($stmt_name, 'pink');
+$db->bexec($stmt_name, 'purple');
+$db->bexec($stmt_name, 'black');
+
+$ids = [1, 2, 3, 4];
+$stmt_name = 'select1';
+$db->prepare('select name from tcolor where color_id = $1', $stmt_name);
+
+foreach($ids as $id) {
+    $data = $db->bquery($stmt_name, $id);
+    var_dump($data);
+}
+```
+
+`bquery()` returns an array with all the data.
+If you want a query result resource instead then use `brquery()`:
+
+```php
+$stmt_name = 'insert1';
+$db->prepare('insert into tcolor values(default, $1)', $stmt_name);
+$colors = ['salmon', 'cyan', 'beige', 'indigo'];
+
+foreach($colors as $c) {
+    $db->bexec($stmt_name, $c);
+}
+
+$floors = [4, 3];
+$stmt_name = 'select1';
+$db->prepare('select * from tcolor where color_id >= $1', $stmt_name);
+
+foreach($floors as $f) {
+    $result = $db->brquery($stmt_name, $f);
+
+    while($row = pg_fetch_object($result)) {
+        print_r($row);
+    }
+}
+```
+
+## SQLite
+
 ...
