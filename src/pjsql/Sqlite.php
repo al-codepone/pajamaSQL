@@ -125,10 +125,27 @@ class Sqlite extends DatabaseHandle {
 		$args = func_get_args();
 		$num_args = count($args);
 
-		if($num_args > 2) {
+        //
+        if($num_args > 1) {
             
             //
-            $raw_types = strtolower($args[1]);
+            $is_params_array = is_array($args[1]);
+            
+            //
+            if($is_params_array) {
+                
+                //
+                $params = $args[1];
+                $raw_types = ($num_args == 2)
+                    ? str_repeat('t', count($params))
+                    : $args[2];
+            }
+            else {
+                $params = array_slice($args, 1);
+                $raw_types = str_repeat('t', count($params));
+            }
+            
+            //
             $types = array();
             
             for($i = 0; $i < strlen($raw_types); ++$i) {
@@ -143,16 +160,14 @@ class Sqlite extends DatabaseHandle {
             }
             
             //
-            $values = array_slice($args, 2);
             $stmt->reset();
-            
-            //
+
             foreach($types as $i => $t) {
-                if(!$stmt->bindValue($i + 1, $values[$i], $t)) {
+                if(!$stmt->bindValue($i + 1, $params[$i], $t)) {
                     $this->error();
                 }
             }
-		}
+        }
         
         //execute
         $result = $stmt->execute();

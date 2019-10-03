@@ -24,26 +24,23 @@ $db->exec(sprintf("INSERT INTO tword (word) VALUES('%s')",
 
 $db->exec(
     'insert into tword(word) values(?)',
-    't',
     'frog');
 
 $db->exec(
     "insert into tword(word)
         select ? as 'word' union
         select ?",
-    'tt',
     'word1',
     'word2');
 
 //prepare and then bind exec more than once
 $stmt = $db->prepare('insert into tword(word) values(?)');
-$db->bexec($stmt, 't', 'up');
-$db->bexec($stmt, 't', 'down');
+$db->bexec($stmt, 'up');
+$db->bexec($stmt, 'down');
 
 //query() returns a 2d array of results
 $data = $db->query(
     'SELECT rowid, word FROM tword where rowid > ? and rowid <= ?',
-    'ii',
     1,
     4);
 
@@ -54,7 +51,6 @@ echo '<pre>',
 //rquery()
 $result = $db->rquery(
     'select * from tword where rowid < ?',
-    'i',
     2);
 
 while($row = $result->fetchArray()) {
@@ -70,7 +66,7 @@ $only_these = array(
 $stmt = $db->prepare('select rowid, word from tword where rowid in(?, ?, ?)');
 
 foreach($only_these as $o) {
-    $data = $db->bquery($stmt, 'iii', $o[0], $o[1], $o[2]);
+    $data = $db->bquery($stmt, $o[0], $o[1], $o[2]);
     
     echo '<pre>',
         print_r($data, true) .
@@ -83,9 +79,17 @@ $ceils = array(3, 1);
 $stmt = $db->prepare('select word from tword where rowid <= ?');
 
 foreach($ceils as $c) {
-    $result = $db->brquery($stmt, 'i', $c);
+    $result = $db->brquery($stmt, $c);
     
     while($row = $result->fetchArray()) {
         echo '<pre>', print_r($row, true), '</pre>';
     }
 }
+
+//use param types string
+$data = $db->query(
+    'select word from tword where rowid in(?, ?)',
+    [2, 3],
+    'ii');
+
+echo '<pre>', print_r($data, true), '</pre>';
