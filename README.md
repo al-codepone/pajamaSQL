@@ -282,4 +282,138 @@ foreach($floors as $f) {
 
 ## SQLite
 
+Use the `Sqlite()` constructor to connect to an SQLite database:
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$db = new pjsql\Sqlite('mydb.db');
+
+echo get_class($db->conn());
+```
+
+`conn()` above is an [SQLite3](https://www.php.net/manual/en/class.sqlite3.php) object.
+
+Execute SQLite queries with `exec()` and `query()`:
+
+```php
+$db->exec('drop table if exists tshape');
+
+$db->exec('create table tshape(name text)');
+
+$db->exec('insert into tshape values("circle")');
+
+$data = $db->query('select * from tshape');
+
+print_r($data);
+```
+
+`exec()` and `query()` can take query parameters:
+
+```php
+$db->exec(
+    'insert into tshape values(?), (?)',
+    'triangle',
+    'square');
+
+$data = $db->query(
+    'select * from tshape where rowid > ?',
+    1);
+
+print_r($data);
+```
+
+`query()` returns an array with all the data.
+If you want an [SQLite3Result](https://www.php.net/manual/en/class.sqlite3result.php)
+object instead then use `rquery()`:
+
+```php
+$db->exec(
+    'insert into tshape values(?), (?)',
+    'triangle',
+    'square');
+
+$result = $db->rquery(
+    'select * from tshape where rowid > ?',
+    0);
+
+while($row = $result->fetchArray(SQLITE3_ASSOC)) {
+    print_r($row);
+}
+```
+
+Use `prepare()`, `bexec()` and `bquery()` to run a query more than once:
+
+```php
+$stmt = $db->prepare('insert into tshape values(?)');
+$db->bexec($stmt, 'octagon');
+$db->bexec($stmt, 'oval');
+$db->bexec($stmt, 'circle');
+
+$ids = [1, 2, 3, 4];
+$stmt = $db->prepare('select name from tshape where rowid = ?');
+
+foreach($ids as $id) {
+    $data = $db->bquery($stmt, $id);
+    print_r($data);
+}
+```
+
+`bquery()` returns an array with all the data.
+If you want an [SQLite3Result](https://www.php.net/manual/en/class.sqlite3result.php)
+object instead then use `brquery()`:
+
+```php
+$stmt = $db->prepare('insert into tshape values(?)');
+$shapes = ['star', 'heart', 'cross', 'diamond'];
+
+foreach($shapes as $s) {
+    $db->bexec($stmt, $s);
+}
+
+$stmt = $db->prepare('select * from tshape where rowid >= ?');
+$floors = [4, 3, 4];
+
+foreach($floors as $f) {
+    $result = $db->brquery($stmt, $f);
+
+    while($row = $result->fetchArray()) {
+        print_r($row);
+    }
+}
+```
+
+With `exec()`, `query()`, `rquery()`, `bexec()`, `bquery()` and `brquery()`
+you can put the parameter values into an array and use a types
+string as the third argument in order to specify the query
+parameter types:
+
+```php
+$db->exec(
+    'insert into tshape values(?), (?)',
+    ['square', 'circle'],
+    'tt');
+
+$data = $db->query(
+    'select * from tshape where rowid < ?',
+    [500],
+    'i');
+
+print_r($data);
+```
+
+The characters in the above types string use the following mapping:
+
+```
+i = SQLITE3_INTEGER
+f = SQLITE3_FLOAT
+t = SQLITE3_TEXT
+b = SQLITE3_BLOB
+n = SQLITE3_NULL
+```
+
+## Models
+
 ...
