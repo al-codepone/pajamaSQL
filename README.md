@@ -42,6 +42,29 @@ Install using composer:
 }
 ```
 
+## Overview
+
+pajamaSQL wraps [Mysqli](http://www.php.net/manual/en/book.mysqli.php),
+[PostgreSQL](http://www.php.net/manual/en/book.pgsql.php) and
+[SQLite3](http://www.php.net/manual/en/book.sqlite3.php)
+prepared statements. Regardless of which SQL you use,
+these ten methods are available: `exec()`, `query()`, `rquery()`, `prepare()`,
+`bexec()`, `bquery()`, `brquery()`, `conn()`, `error()` and `esc()`.
+Basic usage looks like this:
+
+```php
+$db->exec(
+    'insert into foo values(?), (?)',
+    'bar',
+    'baz');
+
+$data = $db->query(
+    'select * from foo where rowid > ?',
+    1);
+```
+
+There is also a model layer that exposes the above ten methods to `$this`.
+
 ## MySQL
 
 Connect to MySQL using the constructor:
