@@ -67,7 +67,7 @@ There is also a model layer that exposes the above ten methods to `$this`.
 
 ## MySQL
 
-Connect to MySQL using the constructor:
+Use the `Mysql()` constructor to connect to a MySQL database:
 
 ```php
 <?php
@@ -83,11 +83,11 @@ $db = new pjsql\Mysql(
 echo $db->conn()->stat();
 ```
 
+`conn()` above is a [mysqli](https://www.php.net/manual/en/class.mysqli.php) object.
+
 Execute MySQL queries with `exec()` and `query()`:
 
 ```php
-$db->exec('drop table if exists tanimal');
-
 $db->exec('create table tanimal(
     animal_id int auto_increment primary key,
     name varchar(32))');
@@ -114,17 +114,13 @@ $data = $db->query(
 print_r($data);
 ```
 
-`query()` returns a 2D array. If you want a `mysqli_result` object instead then use `rquery()`:
+`query()` returns an array with all the data.
+If you want a
+[mysqli_result](https://www.php.net/manual/en/class.mysqli-result.php)
+object instead then use `rquery()`:
 
 ```php
-$db->exec(
-    'insert into tanimal(name) values(?), (?)',
-    'tiger',
-    'eagle');
-
-$result = $db->rquery(
-    'select * from tanimal where animal_id < ?',
-    1000);
+$result = $db->rquery('select * from tanimal');
 
 while($row = $result->fetch_object()) {
     print_r($row);
@@ -148,16 +144,12 @@ foreach($ids as $id) {
 }
 ```
 
-`bquery()` returns a 2D array. If you want a `mysqli_result` object instead then use `brquery()`:
+`bquery()` returns an array with all the data.
+If you want a
+[mysqli_result](https://www.php.net/manual/en/class.mysqli-result.php)
+object instead then use `brquery()`:
 
 ```php
-$animals = ['cat', 'dog', 'turtle', 'crab', 'shark'];
-$stmt = $db->prepare('insert into tanimal values(null, ?)');
-
-foreach($animals as $a) {
-    $db->bexec($stmt, $a);
-}
-
 $floors = [1, 5];
 $stmt = $db->prepare('select name from tanimal where animal_id >= ?');
 
@@ -170,7 +162,7 @@ foreach($floors as $f) {
 }
 ```
 
-With `exec()`, `query()`, `rquery()`, `bexec()`, `bquery()` and `brquery()`
+With all the exec and query methods
 you can put the parameter values into an array and use a types
 string as the third argument in order to specify the query
 parameter types:

@@ -19,9 +19,7 @@ $db->exec(
     'tiger',
     'eagle');
 
-$result = $db->rquery(
-    'select * from tanimal where animal_id < ?',
-    1000);
+$result = $db->rquery('select * from tanimal');
 
 while($row = $result->fetch_object()) {
     print_r($row);
