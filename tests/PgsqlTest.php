@@ -25,4 +25,25 @@ class PgsqlTest extends TestCase {
             get_resource_type($db->conn()),
             'pgsql link');
     }
+    
+    //
+    public function testExecQuery() {
+
+        //
+        $db = new \pjsql\Pgsql(sprintf(
+            'dbname=%s user=%s password=%s',
+            self::$correct_database,
+            self::$correct_username,
+            self::$correct_password));
+
+        $db->exec('drop table if exists tfish');
+        $db->exec('create table tfish(name varchar(50))');
+        $db->exec("insert into tfish values('trout'), ('bass'), ('tetra')");
+
+        $data = $db->query('select * from tfish');
+
+        $this->assertSame(
+            count($data),
+            3);
+    }
 }
