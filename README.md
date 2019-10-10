@@ -5,15 +5,15 @@ It supports MySQL, PostgreSQL and SQLite.
 
 ## Table of Contents
 
-[Documentation](#documentation)
-[Requirements](#requirements)
-[Source Code](#source-code)
-[Tests](#tests)
-[Installation](#installation)
-[Overview](#overview)
-[MySQL](#mysql)
-[PostgreSQL](#postgresql)
-[SQLite](#sqlite)
+[Documentation](#documentation)\
+[Requirements](#requirements)\
+[Source Code](#source-code)\
+[Tests](#tests)\
+[Installation](#installation)\
+[Overview](#overview)\
+[MySQL](#mysql)\
+[PostgreSQL](#postgresql)\
+[SQLite](#sqlite)\
 [Models](#models)
 
 ## Documentation
