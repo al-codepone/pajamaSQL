@@ -19,9 +19,7 @@ $db->exec(
     'gold',
     'silver');
 
-$result = $db->rquery(
-    'select * from tcolor where color_id > $1',
-    0);
+$result = $db->rquery('select * from tcolor');
 
 while($row = pg_fetch_assoc($result)) {
     print_r($row);

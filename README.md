@@ -205,8 +205,6 @@ by [pg_connect()](https://www.php.net/manual/en/function.pg-connect.php).
 Execute PostgreSQL queries with `exec()` and `query()`:
 
 ```php
-$db->exec('drop table if exists tcolor');
-
 $db->exec('create table tcolor(
     color_id serial primary key,
     name varchar(40))');
@@ -237,14 +235,7 @@ print_r($data);
 If you want a query result resource instead then use `rquery()`:
 
 ```php
-$db->exec(
-    'insert into tcolor(name) values($1), ($2)',
-    'gold',
-    'silver');
-
-$result = $db->rquery(
-    'select * from tcolor where color_id > $1',
-    0);
+$result = $db->rquery('select * from tcolor');
 
 while($row = pg_fetch_assoc($result)) {
     print_r($row);
@@ -274,14 +265,6 @@ foreach($ids as $id) {
 If you want a query result resource instead then use `brquery()`:
 
 ```php
-$stmt_name = 'insert1';
-$db->prepare('insert into tcolor values(default, $1)', $stmt_name);
-$colors = ['salmon', 'cyan', 'beige', 'indigo'];
-
-foreach($colors as $c) {
-    $db->bexec($stmt_name, $c);
-}
-
 $floors = [4, 3];
 $stmt_name = 'select1';
 $db->prepare('select * from tcolor where color_id >= $1', $stmt_name);
