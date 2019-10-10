@@ -4,22 +4,22 @@ use PHPUnit\Framework\TestCase;
 
 //
 class MysqlTest extends TestCase {
+
+    //
+    protected static $correct_host = 'localhost';
+    protected static $correct_username = 'root';
+    protected static $correct_password = '';
+    protected static $correct_database = 'test';
     
     //
     public function testCanConnect() {
         
         //
-        $correct_host = 'localhost';
-        $correct_username = 'root';
-        $correct_password = '';
-        $correct_database = 'test';
-        
-        //
         $db = new \pjsql\Mysql(
-            $correct_host,
-            $correct_username,
-            $correct_password,
-            $correct_database);
+            self::$correct_host,
+            self::$correct_username,
+            self::$correct_password,
+            self::$correct_database);
 
         //
         $this->assertSame(

@@ -6,9 +6,9 @@ use PHPUnit\Framework\TestCase;
 class PgsqlTest extends TestCase {
 
     //
-    protected $correct_username = 'postgres';
-    protected $correct_password = 'flower48';
-    protected $correct_database = 'test';
+    protected static $correct_username = 'postgres';
+    protected static $correct_password = 'flower48';
+    protected static $correct_database = 'test';
     
     //
     public function testCanConnect() {
@@ -16,9 +16,9 @@ class PgsqlTest extends TestCase {
         //
         $db = new \pjsql\Pgsql(sprintf(
             'dbname=%s user=%s password=%s',
-            $this->correct_database,
-            $this->correct_username,
-            $this->correct_password));
+            self::$correct_database,
+            self::$correct_username,
+            self::$correct_password));
 
         //
         $this->assertSame(
