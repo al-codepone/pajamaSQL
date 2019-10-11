@@ -8,7 +8,8 @@ It supports MySQL, PostgreSQL and SQLite.
 [Documentation](#documentation)\
 [Requirements](#requirements)\
 [Source Code](#source-code)\
-[Tests](#tests)\
+[Unit Tests](#unit-tests)\
+[Examples](#examples)\
 [Installation](#installation)\
 [Overview](#overview)\
 [MySQL](#mysql)\
@@ -23,11 +24,12 @@ is currently the only documentation.
 
 ## Requirements
 
-**PHP 5.3** or higher, [Composer](https://getcomposer.org/),
+**PHP 5 >= 5.6.0, PHP 7**, [Composer](https://getcomposer.org/),
 and at least one of the follow PHP vendor specific database extensions:
 [Mysqli](http://www.php.net/manual/en/book.mysqli.php),
 [PostgreSQL](http://www.php.net/manual/en/book.pgsql.php),
-[SQLite3](http://www.php.net/manual/en/book.sqlite3.php).
+[SQLite3](http://www.php.net/manual/en/book.sqlite3.php). The unit tests
+need **PHP 7 >= 7.2.0**.
 
 
 ## Source Code
@@ -36,12 +38,21 @@ This [project](https://github.com/al-codepone/pajamaSQL)
 and its [source code](https://github.com/al-codepone/pajamaSQL/tree/master/src/pjsql)
 are available on GitHub.
 
-## Tests
+## Unit Tests
 
-All the tests are in the [test directory](https://github.com/al-codepone/pajamaSQL/tree/master/test).
-Each PHP script in the top level test directory is a separate test.
-You need to run `composer install` in the test directory before running any of the tests.
-You also need to setup database credentials and put them in a test before running any test.
+There are unit tests in the
+[tests directory](https://github.com/al-codepone/pajamaSQL/tree/master/tests).
+You will need to edit the database credentials at the top of
+`MysqlTest.php` and `PgsqlTest.php`.
+
+## Examples
+
+All the example code in this README is in the
+[examples](https://github.com/al-codepone/pajamaSQL/tree/master/examples)
+directory. The examples directory also contains additional examples that are not
+in this README.
+You need to run `composer install` in the examples directory before running
+any of the examples.
 
 ## Installation
 
@@ -60,12 +71,17 @@ Install using composer:
 pajamaSQL wraps [Mysqli](http://www.php.net/manual/en/book.mysqli.php),
 [PostgreSQL](http://www.php.net/manual/en/book.pgsql.php) and
 [SQLite3](http://www.php.net/manual/en/book.sqlite3.php)
-prepared statements. Regardless of which SQL you use,
-these ten methods are available: `exec()`, `query()`, `rquery()`, `prepare()`,
-`bexec()`, `bquery()`, `brquery()`, `conn()`, `error()` and `esc()`.
-Basic usage looks like this:
+prepared statements. These are the available methods: `exec()`, `query()`,
+`rquery()`, `prepare()`, `bexec()`, `bquery()`, `brquery()`, `conn()`,
+`error()` and `esc()`. Basic usage looks like this:
 
 ```php
+<?php
+
+require 'vendor/autoload.php';
+
+$db = new pjsql\Sqlite('mydb.db');
+
 $db->exec(
     'insert into foo values(?), (?)',
     'bar',
@@ -74,9 +90,37 @@ $db->exec(
 $data = $db->query(
     'select * from foo where rowid > ?',
     1);
+
+print_r($data);
 ```
 
-There is also a model layer that exposes the above ten methods to `$this`.
+There is also a model layer. Basic model creation:
+
+```php
+<?php
+
+namespace purple;
+
+class FooModel extends \pjsql\DatabaseAdapter {
+    public function createFoo($name) {
+        $this->exec(
+            'insert into foo values(?)',
+            $name);
+    }    
+}
+```
+
+Model instantiation and usage:
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$foo_model = purple\ModelFactory::get('purple\FooModel');
+
+$foo_model->createFoo('fred');
+```
 
 ## MySQL
 
