@@ -24,12 +24,12 @@ is currently the only documentation.
 
 ## Requirements
 
-**PHP 5 >= 5.6.0, PHP 7**, [Composer](https://getcomposer.org/),
+**PHP 5.6.0+ or 7+**; [Composer](https://getcomposer.org/);
 and at least one of the follow PHP vendor specific database extensions:
 [Mysqli](http://www.php.net/manual/en/book.mysqli.php),
-[PostgreSQL](http://www.php.net/manual/en/book.pgsql.php),
+[PostgreSQL](http://www.php.net/manual/en/book.pgsql.php) and/or
 [SQLite3](http://www.php.net/manual/en/book.sqlite3.php). The unit tests
-need **PHP 7 >= 7.2.0**.
+need **PHP 7.2.0+**.
 
 
 ## Source Code
@@ -41,7 +41,7 @@ are available on GitHub.
 ## Unit Tests
 
 There are unit tests in the
-[tests directory](https://github.com/al-codepone/pajamaSQL/tree/master/tests).
+[tests](https://github.com/al-codepone/pajamaSQL/tree/master/tests) directory.
 You will need to edit the database credentials at the top of
 `MysqlTest.php` and `PgsqlTest.php`.
 
@@ -76,12 +76,6 @@ prepared statements. These are the available methods: `exec()`, `query()`,
 `error()` and `esc()`. Basic usage looks like this:
 
 ```php
-<?php
-
-require 'vendor/autoload.php';
-
-$db = new pjsql\Sqlite('mydb.db');
-
 $db->exec(
     'insert into foo values(?), (?)',
     'bar',
@@ -90,11 +84,9 @@ $db->exec(
 $data = $db->query(
     'select * from foo where rowid > ?',
     1);
-
-print_r($data);
 ```
 
-There is also a model layer. Basic model creation:
+There is also a model layer. A basic model looks like this:
 
 ```php
 <?php
