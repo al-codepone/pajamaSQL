@@ -15,7 +15,8 @@ It supports MySQL, PostgreSQL and SQLite.
 [MySQL](#mysql)\
 [PostgreSQL](#postgresql)\
 [SQLite](#sqlite)\
-[Models](#models)
+[Models](#models)\
+[Error Handling](#error-handling)
 
 ## Documentation
 
@@ -542,5 +543,36 @@ $data = $dog_model->getDogs();
 
 print_r($data);
 ```
+
+## Error Handling
+
+With the exec, query and prepare methods
+you can handle errors with an exception handler:
+
+```php
+set_exception_handler(function($e) {
+    if($e instanceof pjsql\DatabaseException) {
+        die($e->getMessage());
+    }
+    else {
+        throw $e;
+    }
+});
+```
+
+If you use `conn()`, then call `error()` when
+appropriate(MySQL example):
+
+```php
+if($status = $db->conn()->stat()) {
+    echo $status;
+}
+else {
+    $db->error();
+}
+```
+
+`error()` above will thrown an exception that will be
+caught by the above exception handler.
 
 ...
