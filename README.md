@@ -16,7 +16,8 @@ It supports MySQL, PostgreSQL and SQLite.
 [PostgreSQL](#postgresql)\
 [SQLite](#sqlite)\
 [Models](#models)\
-[Error Handling](#error-handling)
+[Error Handling](#error-handling)\
+[License](#license)
 
 ## Documentation
 
@@ -575,4 +576,6 @@ else {
 `error()` above will thrown an exception that will be
 caught by the above exception handler.
 
-...
+## LICENSE
+
+MIT <http://ryf.mit-license.org/>
