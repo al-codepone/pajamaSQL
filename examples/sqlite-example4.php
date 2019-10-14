@@ -13,9 +13,7 @@ $db->exec(
     'triangle',
     'square');
 
-$result = $db->rquery(
-    'select * from tshape where rowid > ?',
-    0);
+$result = $db->rquery('select * from tshape');
 
 while($row = $result->fetchArray(SQLITE3_ASSOC)) {
     print_r($row);

@@ -348,8 +348,6 @@ echo get_class($db->conn());
 Execute SQLite queries with `exec()` and `query()`:
 
 ```php
-$db->exec('drop table if exists tshape');
-
 $db->exec('create table tshape(name text)');
 
 $db->exec('insert into tshape values("circle")');
@@ -379,14 +377,7 @@ If you want an [SQLite3Result](https://www.php.net/manual/en/class.sqlite3result
 object instead then use `rquery()`:
 
 ```php
-$db->exec(
-    'insert into tshape values(?), (?)',
-    'triangle',
-    'square');
-
-$result = $db->rquery(
-    'select * from tshape where rowid > ?',
-    0);
+$result = $db->rquery('select * from tshape');
 
 while($row = $result->fetchArray(SQLITE3_ASSOC)) {
     print_r($row);
@@ -415,13 +406,6 @@ If you want an [SQLite3Result](https://www.php.net/manual/en/class.sqlite3result
 object instead then use `brquery()`:
 
 ```php
-$stmt = $db->prepare('insert into tshape values(?)');
-$shapes = ['star', 'heart', 'cross', 'diamond'];
-
-foreach($shapes as $s) {
-    $db->bexec($stmt, $s);
-}
-
 $stmt = $db->prepare('select * from tshape where rowid >= ?');
 $floors = [4, 3, 4];
 
@@ -434,7 +418,7 @@ foreach($floors as $f) {
 }
 ```
 
-With `exec()`, `query()`, `rquery()`, `bexec()`, `bquery()` and `brquery()`
+With all the exec and query methods
 you can put the parameter values into an array and use a types
 string as the third argument in order to specify the query
 parameter types:
