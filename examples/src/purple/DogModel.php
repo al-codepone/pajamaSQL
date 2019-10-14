@@ -18,12 +18,6 @@ class DogModel extends \pjsql\DatabaseAdapter {
     }
 
     public function getDogs() {
-        return $this->query('
-            select
-                dog_id, name
-            from
-                tdog
-            order by
-                name');
+        return $this->query('select * from tdog');
     }     
 }

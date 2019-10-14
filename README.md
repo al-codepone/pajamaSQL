@@ -449,10 +449,6 @@ n = SQLITE3_NULL
 
 ## Models
 
-This is a MySQL model example.
-PostgreSQL and SQLite models will look almost identical to this;
-we will indicate the minor differences along the way.
-
 Set up a model factory:
 
 ```php
@@ -471,9 +467,8 @@ class ModelFactory extends \pjsql\AdapterFactory {
 }
 ```
 
-If you want to use PostgreSQL or SQLite instead of MySQL,
-then instantiate a `\pjsql\Pgsql` or a `\pjsql\Sqlite`
-instead of a `\pjsql\Mysql`.
+If you want to use PostgreSQL or SQLite,
+then use `Pgsql()` or `Sqlite()` instead of the above `Mysql()`.
 
 Create a model:
 
@@ -484,8 +479,6 @@ namespace purple;
 
 class DogModel extends \pjsql\DatabaseAdapter {
     public function install() {
-        $this->exec('drop table if exists tdog');
-
         $this->exec('create table tdog(
             dog_id int auto_increment primary key,
             name varchar(50))');
@@ -498,13 +491,7 @@ class DogModel extends \pjsql\DatabaseAdapter {
     }
 
     public function getDogs() {
-        return $this->query('
-            select
-                dog_id, name
-            from
-                tdog
-            order by
-                name');
+        return $this->query('select * from tdog');
     }     
 }
 ```
@@ -522,7 +509,6 @@ $dog_model->install();
 
 $dog_model->createDog('spike');
 $dog_model->createDog('buster');
-$dog_model->createDog('molly');
 
 $data = $dog_model->getDogs();
 
