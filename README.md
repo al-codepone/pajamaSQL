@@ -63,7 +63,7 @@ Install using composer:
 ```javascript
 {
     "require": {
-        "pajamasql/pajamasql": "0.5.0",
+        "pajamasql/pajamasql": "1.0.0",
     }
 }
 ```
