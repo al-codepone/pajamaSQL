@@ -118,7 +118,7 @@ $foo_model->createFoo('fred');
 
 ## MySQL
 
-Use the `Mysql()` constructor to connect to a MySQL database:
+Use `Mysql()` to connect to a database:
 
 ```php
 <?php
@@ -136,7 +136,7 @@ echo $db->conn()->stat();
 
 `conn()` above is a [mysqli](https://www.php.net/manual/en/class.mysqli.php) object.
 
-Execute MySQL queries with `exec()` and `query()`:
+Execute queries with `exec()` and `query()`:
 
 ```php
 $db->exec('create table tanimal(
@@ -238,7 +238,7 @@ The parameter types string above works the same way as the
 
 ## PostgreSQL
 
-Use the `Pgsql()` constructor to connect to a PostgreSQL database:
+Use `Pgsql()` to connect to a database:
 
 ```php
 <?php
@@ -253,7 +253,7 @@ echo pg_host($db->conn());
 `conn()` above is a PostgreSQL connection resource that is returned
 by [pg_connect()](https://www.php.net/manual/en/function.pg-connect.php).
 
-Execute PostgreSQL queries with `exec()` and `query()`:
+Execute queries with `exec()` and `query()`:
 
 ```php
 $db->exec('create table tcolor(
@@ -331,7 +331,7 @@ foreach($floors as $f) {
 
 ## SQLite
 
-Use the `Sqlite()` constructor to connect to an SQLite database:
+Use `Sqlite()` to connect to a database:
 
 ```php
 <?php
@@ -345,7 +345,7 @@ echo get_class($db->conn());
 
 `conn()` above is an [SQLite3](https://www.php.net/manual/en/class.sqlite3.php) object.
 
-Execute SQLite queries with `exec()` and `query()`:
+Execute queries with `exec()` and `query()`:
 
 ```php
 $db->exec('create table tshape(name text)');
